@@ -212,8 +212,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Physical Health Resources'),
               style: ElevatedButton.styleFrom(
                 primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                textStyle: TextStyle(fontSize: 15),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: TextStyle(fontSize: 12),
               ),
             ),
             SizedBox(height: 30), // Spacing between buttons
@@ -222,8 +222,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Mental Health Resources'),
               style: ElevatedButton.styleFrom(
                 primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                textStyle: TextStyle(fontSize: 15),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: TextStyle(fontSize: 12),
               ),
             ),
             SizedBox(height: 30),
@@ -232,21 +232,16 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Describe Your Emergency'),
               style: ElevatedButton.styleFrom(
                 primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                textStyle: TextStyle(fontSize: 15),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: TextStyle(fontSize: 12),
               ),
             ),
             SizedBox(
                 height:
                     30), // Spacing between buttons // Spacing between buttons
-            ElevatedButton(
+            RawMaterialButton(
               onPressed: _showEmergencyDialog,
-              child: Text('SOS'),
-              style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                textStyle: TextStyle(fontSize: 20),
-              ),
+              child: SOSBtn(),
             ),
             SizedBox(height: 10),
             TextButton(
@@ -265,6 +260,64 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SOSBtn extends StatelessWidget {
+  const SOSBtn({super.key});
+
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Center(
+          child: Container(
+              width: 165,
+              height: 165,
+              padding: EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(255, 255, 0, 0),
+                      Color.fromARGB(255, 255, 172, 172)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(80.0)))),
+        ),
+        Center(
+          child: Container(
+              width: 155,
+              height: 155,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(80.0)))),
+        ),
+        Center(
+          child: Container(
+              width: 149,
+              height: 149,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color.fromARGB(255, 255, 0, 0),
+                      Color.fromARGB(255, 255, 172, 172)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(80.0)))),
+        ),
+        const Text(
+          "SOS",
+          style: TextStyle(
+              fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold),
+        )
+      ],
     );
   }
 }
