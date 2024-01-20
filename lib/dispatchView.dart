@@ -23,18 +23,13 @@ class DispatchRoute extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
+          appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: Text("Dispatch ambulances")),
           body: AmbulanceList(),
-          /*Center(
-            child: Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(children: [
-                TitleBar(),
-                Row(
-                  children: [AmbulanceList()],
-                )
-              ]),
-            ),
-          ),*/
         ));
   }
 }
@@ -50,11 +45,24 @@ class Ambulance extends StatelessWidget {
   final String location;
   @override
   Widget build(BuildContext context) {
+    Color textColor = Colors.black;
+
+    if (available == "false") {
+      textColor = Colors.grey;
+    }
     return Column(
       children: [
-        ContentText(text: id),
-        ContentText(text: available),
-        ContentText(text: location)
+        Text(
+          "ID: $id",
+          style: TextStyle(fontSize: 10, color: textColor),
+        ),
+        Text("Availability: $available",
+            style: TextStyle(fontSize: 10, color: textColor)),
+        Text("Location: $location",
+            style: TextStyle(fontSize: 10, color: textColor)),
+        Divider(
+          color: Colors.black,
+        )
       ],
     );
   }
@@ -95,12 +103,13 @@ class _AmbulanceListState extends State<AmbulanceList> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          TitleBar(),
           FloatingActionButton(
             onPressed: _getAmbulances,
             tooltip: 'Increment',
             child: const Icon(Icons.refresh),
           ),
-          Text("Ambulances"),
+          Text("Select an ambulance"),
           ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -110,16 +119,8 @@ class _AmbulanceListState extends State<AmbulanceList> {
                 var curAv = ambulanceList[index]["available"].toString();
                 var curLoc = ambulanceList[index]["location"].toString();
                 return ListTile(
-                  title: Text(
-                    "ID: $curID",
-                    style: TextStyle(fontSize: 10),
-                  ),
-                  subtitle: Text("Availability: $curAv",
-                      style: TextStyle(fontSize: 10)),
-                  trailing: Text(
-                    "Location: $curLoc",
-                    style: TextStyle(fontSize: 10),
-                  ),
+                  title:
+                      Ambulance(id: curID, available: curAv, location: curLoc),
                 );
               })
         ],
