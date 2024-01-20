@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mapView.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -85,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MapRoute()));
               },
             ),
           ],
@@ -182,6 +185,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .pop(); // Closes the Notice dialog
                             Navigator.of(context, rootNavigator: true)
                                 .pop(); // Closes the Emergency Details dialog
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MapRoute()));
                           },
                         ),
                       ],
