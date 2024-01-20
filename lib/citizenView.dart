@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mapView.dart';
+import 'db/emergencyRequestDb.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -165,9 +166,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               child: Text('Send Information'),
-              onPressed: () {
-                // Use _textFieldController.text to get the input data
-                // Code to handle the input data goes here
+              onPressed: () async {
+              String detail = _textFieldController.text;
+              // Example data, replace with actual values
+              DateTime time = DateTime.now();
+              String location = "User's current location";
+              int classification = 4; // Example classification
+
+              await emergencyRequestsDb.insertEmergencyDetail(detail, time, location, classification);
 
                 showDialog(
                   context: context,
