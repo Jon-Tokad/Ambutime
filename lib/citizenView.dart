@@ -169,11 +169,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
               String detail = _textFieldController.text;
               // Example data, replace with actual values
-              DateTime time = DateTime.now();
-              String location = "User's current location";
-              int classification = 4; // Example classification
+    
 
-              await emergencyRequestsDb.insertEmergencyDetail(detail, time, location, classification);
+              await emergencyRequestsDb.insertEmergencyDetail(detail);
 
                 showDialog(
                   context: context,

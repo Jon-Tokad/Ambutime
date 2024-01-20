@@ -24,13 +24,10 @@ class emergencyRequestsDb {
   }
 
 
-  static Future<void> insertEmergencyDetail(String detail, DateTime time, String location, int classification) async {
+  static Future<void> insertEmergencyDetail(String detail) async {
     var collection = database!.collection(COLLECTION_NAME_EM);
     await collection.insertOne({
-      "detail": detail,
-      "time": time.toString(),
-      "location": location,
-      "classification": classification
+      "detail": detail
     });
   }
 
