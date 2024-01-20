@@ -12,12 +12,13 @@ class emergencyRequestsDb {
     var status = db.serverStatus();
     print(status);
     var collection = db.collection(COLLECTION_NAME_EM);
-    await collection.insertOne({
+    /*await collection.insertOne({
       "location": "null",
       "time": "1:21:00",
       "detail": "broken leg",
       "classification": 4
     });
+    */
     print(await collection.find().toList());
     database = db;
   }
