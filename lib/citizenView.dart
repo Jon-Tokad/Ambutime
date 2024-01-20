@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'mapView.dart';
 import 'db/emergencyRequestDb.dart';
@@ -213,7 +215,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
               String detail = _textFieldController.text;
               // Example data, replace with actual values
-    
+            
+            
+            //FIX THIS WHY WONT THE WINDOW CLOSE AND WHY ISNT IT QUERYING TO DATABASE
+
 
               await emergencyRequestsDb.insertEmergencyDetail(detail);
 

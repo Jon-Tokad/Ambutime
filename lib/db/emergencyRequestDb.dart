@@ -25,10 +25,15 @@ class emergencyRequestsDb {
 
 
   static Future<void> insertEmergencyDetail(String detail) async {
+    Db? database;
+    var db = await Db.create(MONGO_URL);
+    await db.open();
+    inspect(db);
     var collection = database!.collection(COLLECTION_NAME_EM);
     await collection.insertOne({
       "detail": detail
     });
+    database = db;
   }
 
 
