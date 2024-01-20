@@ -12,7 +12,7 @@ class ambulancesDatabase {
     var status = db.serverStatus();
     print(status);
     var collection = db.collection(COLLECTION_NAME_AMB);
-    await collection.insertOne({"available": true, "location": "null"});
+    //await collection.insertOne({"available": true, "location": "null"});
     print(await collection.find().toList());
     database = db;
   }
@@ -23,5 +23,12 @@ class ambulancesDatabase {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  static Future<List<Map<String, dynamic>>?>? pullAmbulances() async {
+    inspect(database);
+    var status = database!.serverStatus();
+    var collection = database?.collection(COLLECTION_NAME_AMB);
+    return (await collection?.find().toList());
   }
 }

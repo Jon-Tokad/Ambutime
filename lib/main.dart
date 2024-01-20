@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'ambulanceView.dart';
 import 'citizenView.dart';
+import 'dispatchView.dart';
 
 void main() {
   runApp(const MyApp());
@@ -87,7 +88,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(height: 30),
             CupertinoButton.filled(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const DispatchRoute()));
+              },
               child: const Text('Dispatch'),
             ),
             SizedBox(height: 30),
