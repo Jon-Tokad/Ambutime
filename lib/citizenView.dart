@@ -126,6 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('WHO Resources'),
                 onTap: () => launch('https://www.who.int/health-topics/physical-activity'),
               ),
+              SizedBox(height: 10),
+              InkWell(
+                child: Text('CPR Guide'),
+                onTap: () => launch('https://www.redcross.org/take-a-class/cpr/performing-cpr/cpr-steps'),
+              ),
               // Add more links here in the same pattern
             ],
           ),
@@ -166,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
               InkWell(
                 child: Text('Purdue Mental Health Resources'),
                 onTap: () => launch('https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
-              ),
+              ),   
               // Add more links here in the same pattern
             ],
           ),
