@@ -21,8 +21,13 @@ class emergencyRequestsDb {
     database = db;
   }
 
-  static Future<void> insertEmergencyDetail(String detail, String time,
-      String classification, String name) async {
+  static Future<void> insertEmergencyDetail(
+      String detail,
+      String time,
+      String classification,
+      String name,
+      String latitude,
+      String longitude) async {
     var db = await Db.create(MONGO_URL);
     await db.open();
     var collection = db.collection(COLLECTION_NAME_EM);
@@ -30,7 +35,9 @@ class emergencyRequestsDb {
       "name": name,
       "time": time,
       "detail": detail,
-      "classification": classification
+      "classification": classification,
+      "latitude": latitude,
+      "longitude": longitude
     });
   }
 
