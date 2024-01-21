@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ambutime/db/ambulanceDb.dart';
 import 'package:ambutime/db/emergencyRequestDb.dart';
+import 'package:ambutime/locator.dart';
 
 Future<void> ambulanceConnect() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,11 +52,13 @@ class AmbulanceRoute extends StatelessWidget {
             ElevatedButton(
               child: Text("OK"),
               onPressed: () async {
-                 String name = _nameController.text;
-              await ambulancesDatabase.connect();
-              await ambulancesDatabase.insertDriverName(
-                name, "null" // Replace with appropriate value if necessary
-              );
+                String name = _nameController.text;
+                await ambulancesDatabase.connect();
+                await ambulancesDatabase.insertDriverName(
+                    name,
+                    await getLatitude(),
+                    await getLongitude() // Replace with appropriate value if necessary
+                    );
                 // Use _nameController.text to get the entered name
                 // You can store or use this name as needed
                 Navigator.of(context).pop();

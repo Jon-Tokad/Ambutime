@@ -15,14 +15,16 @@ class ambulancesDatabase {
     database = db;
   }
 
-   static Future<void> insertDriverName(String name, String location) async {
+  static Future<void> insertDriverName(
+      String name, String latitude, String longitude) async {
     var db = await Db.create(MONGO_URL);
     await db.open();
     var collection = db.collection(COLLECTION_NAME_AMB);
     await collection.insertOne({
       "name": name,
       "available": true,
-      "location": location
+      "latitude": latitude,
+      "longitude": longitude
     });
   }
 
