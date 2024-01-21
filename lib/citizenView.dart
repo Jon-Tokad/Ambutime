@@ -138,7 +138,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   onTap: () => launch(
                       'https://www.who.int/health-topics/physical-activity'),
                 ),
-                // Add more links here in the same pattern
+                SizedBox(height: 10),
+              InkWell(
+                child: Text('CPR Guide'),
+                onTap: () => launch('https://www.redcross.org/take-a-class/cpr/performing-cpr/cpr-steps'),
+              ),
               ],
             ),
           ),
