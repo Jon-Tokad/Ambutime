@@ -96,9 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "SOS",
                     DateTime.now().toString(),
                     "SOS",
-                    "SOS" "SOS" +
-                        DateTime.now().toString() +
-                        await getLatitude(),
+                    "SOS" + DateTime.now().toString() + await getLatitude(),
                     await getLatitude(),
                     await getLongitude() // Replace with appropriate value if necessary
                     );
