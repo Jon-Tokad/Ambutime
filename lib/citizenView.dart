@@ -93,10 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('OK'),
               onPressed: () async {
                 await emergencyRequestsDb.insertEmergencyDetail(
-                    "SOS" + DateTime.now().toString() + await getLatitude(),
+                    "SOS",
                     DateTime.now().toString(),
                     "SOS",
-                    "SOS",
+                    "SOS" "SOS" +
+                        DateTime.now().toString() +
+                        await getLatitude(),
                     await getLatitude(),
                     await getLongitude() // Replace with appropriate value if necessary
                     );
@@ -139,10 +141,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       'https://www.who.int/health-topics/physical-activity'),
                 ),
                 SizedBox(height: 10),
-              InkWell(
-                child: Text('CPR Guide'),
-                onTap: () => launch('https://www.redcross.org/take-a-class/cpr/performing-cpr/cpr-steps'),
-              ),
+                InkWell(
+                  child: Text('CPR Guide'),
+                  onTap: () => launch(
+                      'https://www.redcross.org/take-a-class/cpr/performing-cpr/cpr-steps'),
+                ),
               ],
             ),
           ),
@@ -161,43 +164,45 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _ment() {
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Mental Health Resources'), 
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              InkWell(
-                child: Text('SAMHSA'),
-                onTap: () => launch('https://www.samhsa.gov'),
-              ),
-              SizedBox(height: 10),  // Space between links
-              InkWell(
-                child: Text('National Institute of Mental Health'),
-                onTap: () => launch('https://www.nimh.nih.gov/health/find-help'),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                child: Text('Purdue Mental Health Resources'),
-                onTap: () => launch('https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
-              ),
-              // Add more links here in the same pattern
-            ],
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mental Health Resources'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                InkWell(
+                  child: Text('SAMHSA'),
+                  onTap: () => launch('https://www.samhsa.gov'),
+                ),
+                SizedBox(height: 10), // Space between links
+                InkWell(
+                  child: Text('National Institute of Mental Health'),
+                  onTap: () =>
+                      launch('https://www.nimh.nih.gov/health/find-help'),
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  child: Text('Purdue Mental Health Resources'),
+                  onTap: () => launch(
+                      'https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
+                ),
+                // Add more links here in the same pattern
+              ],
+            ),
           ),
-        ), 
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _desc() {
