@@ -11,35 +11,60 @@ Future<void> ambulanceConnect() async {
 class AmbulanceRoute extends StatelessWidget {
   const AmbulanceRoute({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     ambulanceConnect();
+    Future.delayed(Duration.zero, () => _askDriverName(context));
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          // This is the theme of your application.
-          //
-          // Try running your application with "flutter run". You'll see the
-          // application has a blue toolbar. Then, without quitting the app, try
-          // changing the primarySwatch below to Colors.green and then invoke
-          // "hot reload" (press "r" in the console where you ran "flutter run",
-          // or simply save your changes to "hot reload" in a Flutter IDE).
-          // Notice that the counter didn't reset back to zero; the application
-          // is not restarted.
-          primarySwatch: Colors.red,
-        ),
-        home: const Scaffold(
-          body: Center(
-            child: Padding(
-              padding: EdgeInsets.all(25.0),
-              child: Column(children: [
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: const Scaffold(
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.all(25.0),
+            child: Column(
+              children: [
                 TitleBar(),
                 CurrentEmergency(),
-              ]),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  void _askDriverName(BuildContext context) {
+    TextEditingController _nameController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Enter Driver Name"),
+          content: TextField(
+            controller: _nameController,
+            decoration: InputDecoration(hintText: "Name"),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () async {
+                 String name = _nameController.text;
+              await ambulancesDatabase.connect();
+              await ambulancesDatabase.insertDriverName(
+                name, "null" // Replace with appropriate value if necessary
+              );
+                // Use _nameController.text to get the entered name
+                // You can store or use this name as needed
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -52,23 +77,29 @@ class TitleBar extends StatelessWidget {
       text: const TextSpan(
         children: <TextSpan>[
           TextSpan(
-              text: 'Ambu',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.black)),
+            text: 'Ambu',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Colors.black,
+            ),
+          ),
           TextSpan(
-              text: '+',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Colors.red)),
+            text: '+',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 40,
+              color: Colors.red,
+            ),
+          ),
           TextSpan(
-              text: 'ime',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  color: Colors.black)),
+            text: 'ime',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
     );
@@ -114,7 +145,7 @@ class _CurrentEmergencyState extends State<CurrentEmergency> {
           ContentText(text: "ETA: $eta"),
           ContentText(text: "Distance: $distance"),
           ContentText(text: "Emergency details: $detail"),
-          ContentText(text: "Emergency classification: $classification")
+          ContentText(text: "Emergency classification: $classification"),
         ],
       ),
     );
