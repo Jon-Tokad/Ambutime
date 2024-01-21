@@ -23,4 +23,30 @@ class PairsDb {
     await collection.update(
         where.eq("name", emergencyID), modify.set("classification", -1));
   }
+
+  static Future<Map<String, dynamic>?> getAmbulance(
+      String emergencyName) async {
+    var db = await Db.create(MONGO_URL);
+    await db.open();
+    var collection = db.collection(COLLECTION_NAME_P);
+    var ambulanceName =
+        await collection.findOne(where.eq("emergency", emergencyName));
+
+    collection = db.collection(COLLECTION_NAME_AMB);
+
+    return await collection.findOne(where.eq("ambulance", ambulanceName));
+  }
+
+  static Future<Map<String, dynamic>?> getEmergency(
+      String ambulanceName) async {
+    var db = await Db.create(MONGO_URL);
+    await db.open();
+    var collection = db.collection(COLLECTION_NAME_P);
+    var emergencyName =
+        await collection.findOne(where.eq("ambulance", ambulanceName));
+
+    collection = db.collection(COLLECTION_NAME_EM);
+
+    return await collection.findOne(where.eq("emergency", emergencyName));
+  }
 }
