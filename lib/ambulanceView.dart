@@ -29,13 +29,13 @@ class AmbulanceRoute extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.red,
         ),
-        home: Scaffold(
+        home: const Scaffold(
           body: Center(
             child: Padding(
-              padding: const EdgeInsets.all(25.0),
+              padding: EdgeInsets.all(25.0),
               child: Column(children: [
                 TitleBar(),
-                const CurrentEmergency(),
+                CurrentEmergency(),
               ]),
             ),
           ),
@@ -44,6 +44,9 @@ class AmbulanceRoute extends StatelessWidget {
 }
 
 class TitleBar extends StatelessWidget {
+  const TitleBar({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return RichText(
       text: const TextSpan(
@@ -77,6 +80,7 @@ class ContentText extends StatelessWidget {
 
   final String text;
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

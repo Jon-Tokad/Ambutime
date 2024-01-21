@@ -39,6 +39,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class TitleBar extends StatelessWidget {
+  const TitleBar({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
