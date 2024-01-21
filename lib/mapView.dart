@@ -201,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: MyLocationPin(),
                       ),
                       Marker(
-                        point: LatLng(currentAmbulance!['latitude'], currentLocation!.longitude ?? 0),
+                        point: LatLng(double.parse(currentAmbulance!['latitude']), double.parse(currentAmbulance!['longitude'])),
                         width: 30,
                         height: 30,
                         child: AmbulanceLocationPin(),
