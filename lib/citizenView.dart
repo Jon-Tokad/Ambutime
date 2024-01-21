@@ -1,6 +1,7 @@
 import 'dart:isolate';
 
 import 'package:ambutime/db/ambulanceDb.dart';
+import 'package:ambutime/locator.dart';
 import 'package:flutter/material.dart';
 import 'mapView.dart';
 import 'db/emergencyRequestDb.dart';
@@ -90,7 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
-              onPressed: () {
+              onPressed: () async {
+                await emergencyRequestsDb.insertEmergencyDetail(
+                    "SOS" + DateTime.now().toString() + await getLatitude(),
+                    DateTime.now().toString(),
+                    "SOS",
+                    "SOS",
+                    await getLatitude(),
+                    await getLongitude() // Replace with appropriate value if necessary
+                    );
                 Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const MapRoute()));
@@ -103,191 +112,198 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _phys() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Physical Health Resources'), 
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              InkWell(
-                child: Text('NIH Resources'),
-                onTap: () => launch('https://www.nih.gov/health-information/physical-wellness-toolkit-more-resources'),
-              ),
-              SizedBox(height: 10),  // Space between links
-              InkWell(
-                child: Text('CDC Health Tips'),
-                onTap: () => launch('https://www.cdc.gov/healthyweight/index.html'),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                child: Text('WHO Resources'),
-                onTap: () => launch('https://www.who.int/health-topics/physical-activity'),
-              ),
-              // Add more links here in the same pattern
-            ],
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Physical Health Resources'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                InkWell(
+                  child: Text('NIH Resources'),
+                  onTap: () => launch(
+                      'https://www.nih.gov/health-information/physical-wellness-toolkit-more-resources'),
+                ),
+                SizedBox(height: 10), // Space between links
+                InkWell(
+                  child: Text('CDC Health Tips'),
+                  onTap: () =>
+                      launch('https://www.cdc.gov/healthyweight/index.html'),
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  child: Text('WHO Resources'),
+                  onTap: () => launch(
+                      'https://www.who.int/health-topics/physical-activity'),
+                ),
+                // Add more links here in the same pattern
+              ],
+            ),
           ),
-        ), 
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _ment() {
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Mental Health Resources'), 
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              InkWell(
-                child: Text('SAMHSA'),
-                onTap: () => launch('https://www.samhsa.gov'),
-              ),
-              SizedBox(height: 10),  // Space between links
-              InkWell(
-                child: Text('National Institute of Mental Health'),
-                onTap: () => launch('https://www.nimh.nih.gov/health/find-help'),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                child: Text('Purdue Mental Health Resources'),
-                onTap: () => launch('https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
-              ),
-              // Add more links here in the same pattern
-            ],
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mental Health Resources'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                InkWell(
+                  child: Text('SAMHSA'),
+                  onTap: () => launch('https://www.samhsa.gov'),
+                ),
+                SizedBox(height: 10), // Space between links
+                InkWell(
+                  child: Text('National Institute of Mental Health'),
+                  onTap: () =>
+                      launch('https://www.nimh.nih.gov/health/find-help'),
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  child: Text('Purdue Mental Health Resources'),
+                  onTap: () => launch(
+                      'https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
+                ),
+                // Add more links here in the same pattern
+              ],
+            ),
           ),
-        ), 
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-void _desc() {
-  TextEditingController _emergencyDetailController = TextEditingController();
-  TextEditingController _currentTimeController = TextEditingController();
-  TextEditingController _categoryController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
+  void _desc() {
+    TextEditingController _emergencyDetailController = TextEditingController();
+    TextEditingController _currentTimeController = TextEditingController();
+    TextEditingController _categoryController = TextEditingController();
+    TextEditingController _nameController = TextEditingController();
 
-  
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Describe Your Emergency'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('Please provide emergency details:'),
-              TextFormField(
-                controller: _emergencyDetailController,
-                decoration: InputDecoration(hintText: "Enter emergency details here"),
-              ),
-              SizedBox(height: 10),
-              Text('Enter current time:'),
-              TextFormField(
-                controller: _currentTimeController,
-                decoration: InputDecoration(hintText: "Enter current time here"),
-              ),
-              SizedBox(height: 10),
-              Text('Enter emergency category:'),
-              TextFormField(
-                controller: _categoryController,
-                decoration: InputDecoration(hintText: "Enter category number here"),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(height: 10),
-              Text('Enter emergency name:'),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(hintText: "Enter name here"),
-                keyboardType: TextInputType.number,
-              ),
-            ],
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Describe Your Emergency'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Please provide emergency details:'),
+                TextFormField(
+                  controller: _emergencyDetailController,
+                  decoration:
+                      InputDecoration(hintText: "Enter emergency details here"),
+                ),
+                SizedBox(height: 10),
+                Text('Enter current time:'),
+                TextFormField(
+                  controller: _currentTimeController,
+                  decoration:
+                      InputDecoration(hintText: "Enter current time here"),
+                ),
+                SizedBox(height: 10),
+                Text('Enter emergency category:'),
+                TextFormField(
+                  controller: _categoryController,
+                  decoration:
+                      InputDecoration(hintText: "Enter category number here"),
+                  keyboardType: TextInputType.number,
+                ),
+                SizedBox(height: 10),
+                Text('Enter emergency name:'),
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(hintText: "Enter name here"),
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
           ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Send Information'),
-            onPressed: () async {
-              String detail = _emergencyDetailController.text;
-              String currentTime = _currentTimeController.text;
-              String category = _categoryController.text;
-              String name = _nameController.text;
-              print(detail);
-              print(currentTime);
-              print(category);
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Send Information'),
+              onPressed: () async {
+                String detail = _emergencyDetailController.text;
+                String currentTime = _currentTimeController.text;
+                String category = _categoryController.text;
+                String name = _nameController.text;
+                print(detail);
+                print(currentTime);
+                print(category);
 
-              await ambulancesDatabase.connect();
-              await emergencyRequestsDb.insertEmergencyDetail(
-                detail, 
-                currentTime, 
-                category, 
-                name // Replace with appropriate value if necessary
-              );
+                await ambulancesDatabase.connect();
+                await emergencyRequestsDb.insertEmergencyDetail(
+                    detail,
+                    DateTime.now().toString(),
+                    category,
+                    name,
+                    await getLatitude(),
+                    await getLongitude() // Replace with appropriate value if necessary
+                    );
 
-              Navigator.of(context).pop(); // Close the input dialog
+                Navigator.of(context).pop(); // Close the input dialog
 
-              // Display confirmation dialog
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Notice'),
-                    content: Text(
-                        'Your Emergency Information Was Sent. Help Is On The Way.'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('OK'),
-                        onPressed: () {
-                          // Closes the Notice dialog
-                          Navigator.of(context, rootNavigator: true).pop();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MapRoute()));
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
-
+                // Display confirmation dialog
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Notice'),
+                      content: Text(
+                          'Your Emergency Information Was Sent. Help Is On The Way.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            // Closes the Notice dialog
+                            Navigator.of(context, rootNavigator: true).pop();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MapRoute()));
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   @override
