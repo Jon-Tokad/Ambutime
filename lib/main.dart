@@ -82,10 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 30),
             CupertinoButton.filled(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AmbulanceRoute()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AmbulanceRoute()));
               },
               child: const Text('Ambulance'),
             ),

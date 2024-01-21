@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ambutime/db/ambulanceDb.dart';
 import 'package:ambutime/db/emergencyRequestDb.dart';
 import 'package:ambutime/locator.dart';
+import 'package:ambutime/db/pairsDb.dart';
 
 Future<void> ambulanceConnect() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +11,9 @@ Future<void> ambulanceConnect() async {
 }
 
 class AmbulanceRoute extends StatelessWidget {
-  const AmbulanceRoute({super.key});
+  AmbulanceRoute({super.key});
+
+  String driverName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +24,14 @@ class AmbulanceRoute extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const Scaffold(
+      home: Scaffold(
         body: Center(
           child: Padding(
             padding: EdgeInsets.all(25.0),
             child: Column(
               children: [
                 TitleBar(),
-                CurrentEmergency(),
+                CurrentEmergency(driverName: driverName),
               ],
             ),
           ),
@@ -53,6 +56,7 @@ class AmbulanceRoute extends StatelessWidget {
               child: Text("OK"),
               onPressed: () async {
                 String name = _nameController.text;
+                driverName = name;
                 await ambulancesDatabase.connect();
                 await ambulancesDatabase.insertDriverName(
                     name,
@@ -124,7 +128,8 @@ class ContentText extends StatelessWidget {
 }
 
 class CurrentEmergency extends StatefulWidget {
-  const CurrentEmergency({super.key});
+  CurrentEmergency({super.key, required this.driverName});
+  final String driverName;
 
   @override
   State<CurrentEmergency> createState() => _CurrentEmergencyState();
@@ -134,21 +139,44 @@ class _CurrentEmergencyState extends State<CurrentEmergency> {
   String emergencyID = "None";
   String location = "";
   String eta = "";
-  double distance = -1.0;
+  String distance = "-1.0";
   String detail = "";
-  int classification = -1;
+  String classification = "-1";
+  String time = "";
+
+  void getCurrentEmergency() async {
+    var emergency = await PairsDb.getEmergency(widget.driverName);
+    setState(() {
+      emergencyID = emergency!['name'].toString();
+      location = "(" +
+          emergency!['latitude'].toString() +
+          "," +
+          emergency!['longitude'].toString() +
+          ")";
+      distance = emergency!['distance'].toString();
+      detail = emergency!['detail'].toString();
+      classification = emergency!['classification'].toString();
+      time = emergency!['time'].toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
+          FloatingActionButton(
+            onPressed: getCurrentEmergency,
+            tooltip: 'refresh',
+            child: const Icon(Icons.refresh),
+          ),
           ContentText(text: "Emergency ID: $emergencyID"),
           ContentText(text: "Emergency location: $location"),
           ContentText(text: "ETA: $eta"),
           ContentText(text: "Distance: $distance"),
           ContentText(text: "Emergency details: $detail"),
           ContentText(text: "Emergency classification: $classification"),
+          ContentText(text: "Time reported: $time"),
         ],
       ),
     );
