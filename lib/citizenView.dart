@@ -1,5 +1,6 @@
 import 'dart:isolate';
 
+import 'package:ambutime/db/ambulanceDb.dart';
 import 'package:flutter/material.dart';
 import 'mapView.dart';
 import 'db/emergencyRequestDb.dart';
@@ -214,13 +215,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Send Information'),
               onPressed: () async {
               String detail = _textFieldController.text;
+              print(detail);
               // Example data, replace with actual values
             
             
             //FIX THIS WHY WONT THE WINDOW CLOSE AND WHY ISNT IT QUERYING TO DATABASE
 
-
-              await emergencyRequestsDb.insertEmergencyDetail(detail);
+              await ambulancesDatabase.connect();
+              await emergencyRequestsDb.insertEmergencyDetail(detail, "null", "null", "null");
 
                 showDialog(
                   context: context,

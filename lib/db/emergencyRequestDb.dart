@@ -2,7 +2,9 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'constant.dart';
 import 'dart:developer';
 
+
 class emergencyRequestsDb {
+  
   static Db? database;
 
   static connect() async {
@@ -24,16 +26,16 @@ class emergencyRequestsDb {
   }
 
 
-  static Future<void> insertEmergencyDetail(String detail) async {
-    Db? database;
+  static Future<void> insertEmergencyDetail(String detail, String location, String time, String classification) async {
     var db = await Db.create(MONGO_URL);
     await db.open();
-    inspect(db);
-    var collection = database!.collection(COLLECTION_NAME_EM);
+    var collection = db.collection(COLLECTION_NAME_EM);
     await collection.insertOne({
-      "detail": detail
+      "location": "null",
+      "time": "12:00",
+      "detail": detail,
+      "classification": 3
     });
-    database = db;
   }
 
 
