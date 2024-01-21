@@ -1,10 +1,8 @@
-import 'dart:isolate';
 
 import 'package:ambutime/db/ambulanceDb.dart';
 import 'package:flutter/material.dart';
 import 'mapView.dart';
 import 'db/emergencyRequestDb.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -17,10 +15,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class TitleBar extends StatelessWidget {
+  const TitleBar({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return RichText(
-      text: TextSpan(
-        children: const <TextSpan>[
+      text: const TextSpan(
+        children: <TextSpan>[
           TextSpan(
               text: 'Ambu',
               style: TextStyle(
@@ -70,7 +71,7 @@ class CitizenRoute extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 172, 2, 2)),
+            ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 172, 2, 2)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Ambutime'),
@@ -85,11 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Emergency Alert'),
-          content: Text('Emergency responders are on the way.'),
+          title: const Text('Emergency Alert'),
+          content: const Text('Emergency responders are on the way.'),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.push(context,
@@ -107,23 +108,23 @@ class _MyHomePageState extends State<MyHomePage> {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Physical Health Resources'), 
+        title: const Text('Physical Health Resources'), 
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               InkWell(
-                child: Text('NIH Resources'),
+                child: const Text('NIH Resources'),
                 onTap: () => launch('https://www.nih.gov/health-information/physical-wellness-toolkit-more-resources'),
               ),
-              SizedBox(height: 10),  // Space between links
+              const SizedBox(height: 10),  // Space between links
               InkWell(
-                child: Text('CDC Health Tips'),
+                child: const Text('CDC Health Tips'),
                 onTap: () => launch('https://www.cdc.gov/healthyweight/index.html'),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               InkWell(
-                child: Text('WHO Resources'),
+                child: const Text('WHO Resources'),
                 onTap: () => launch('https://www.who.int/health-topics/physical-activity'),
               ),
               // Add more links here in the same pattern
@@ -132,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ), 
         actions: <Widget>[
           TextButton(
-            child: Text('Close'),
+            child: const Text('Close'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -148,23 +149,23 @@ class _MyHomePageState extends State<MyHomePage> {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Mental Health Resources'), 
+        title: const Text('Mental Health Resources'), 
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               InkWell(
-                child: Text('SAMHSA'),
+                child: const Text('SAMHSA'),
                 onTap: () => launch('https://www.samhsa.gov'),
               ),
-              SizedBox(height: 10),  // Space between links
+              const SizedBox(height: 10),  // Space between links
               InkWell(
-                child: Text('National Institute of Mental Health'),
+                child: const Text('National Institute of Mental Health'),
                 onTap: () => launch('https://www.nimh.nih.gov/health/find-help'),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               InkWell(
-                child: Text('Purdue Mental Health Resources'),
+                child: const Text('Purdue Mental Health Resources'),
                 onTap: () => launch('https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
               ),
               // Add more links here in the same pattern
@@ -173,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ), 
         actions: <Widget>[
           TextButton(
-            child: Text('Close'),
+            child: const Text('Close'),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -185,34 +186,34 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 void _desc() {
-  TextEditingController _emergencyDetailController = TextEditingController();
-  TextEditingController _currentTimeController = TextEditingController();
-  TextEditingController _categoryController = TextEditingController();
+  TextEditingController emergencyDetailController = TextEditingController();
+  TextEditingController currentTimeController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
 
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Describe Your Emergency'),
+        title: const Text('Describe Your Emergency'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Please provide emergency details:'),
+              const Text('Please provide emergency details:'),
               TextFormField(
-                controller: _emergencyDetailController,
-                decoration: InputDecoration(hintText: "Enter emergency details here"),
+                controller: emergencyDetailController,
+                decoration: const InputDecoration(hintText: "Enter emergency details here"),
               ),
-              SizedBox(height: 10),
-              Text('Enter current time:'),
+              const SizedBox(height: 10),
+              const Text('Enter current time:'),
               TextFormField(
-                controller: _currentTimeController,
-                decoration: InputDecoration(hintText: "Enter current time here"),
+                controller: currentTimeController,
+                decoration: const InputDecoration(hintText: "Enter current time here"),
               ),
-              SizedBox(height: 10),
-              Text('Enter emergency category:'),
+              const SizedBox(height: 10),
+              const Text('Enter emergency category:'),
               TextFormField(
-                controller: _categoryController,
-                decoration: InputDecoration(hintText: "Enter category number here"),
+                controller: categoryController,
+                decoration: const InputDecoration(hintText: "Enter category number here"),
                 keyboardType: TextInputType.number,
               ),
             ],
@@ -220,17 +221,17 @@ void _desc() {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text('Send Information'),
+            child: const Text('Send Information'),
             onPressed: () async {
-              String detail = _emergencyDetailController.text;
-              String currentTime = _currentTimeController.text;
-              String category = _categoryController.text;
+              String detail = emergencyDetailController.text;
+              String currentTime = currentTimeController.text;
+              String category = categoryController.text;
               print(detail);
               print(currentTime);
               print(category);
@@ -250,12 +251,12 @@ void _desc() {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Notice'),
-                    content: Text(
+                    title: const Text('Notice'),
+                    content: const Text(
                         'Your Emergency Information Was Sent. Help Is On The Way.'),
                     actions: <Widget>[
                       TextButton(
-                        child: Text('OK'),
+                        child: const Text('OK'),
                         onPressed: () {
                           // Closes the Notice dialog
                           Navigator.of(context, rootNavigator: true).pop();
@@ -283,7 +284,7 @@ void _desc() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: TitleBar()), // Using TitleBar here
+        title: const Center(child: TitleBar()), // Using TitleBar here
       ),
       body: Center(
         child: Column(
@@ -291,51 +292,51 @@ void _desc() {
           children: <Widget>[
             ElevatedButton(
               onPressed: _phys,
-              child: Text('Physical Health Resources'),
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                textStyle: TextStyle(fontSize: 12),
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: const TextStyle(fontSize: 12),
               ),
+              child: const Text('Physical Health Resources'),
             ),
-            SizedBox(height: 30), // Spacing between buttons
+            const SizedBox(height: 30), // Spacing between buttons
             ElevatedButton(
               onPressed: _ment,
-              child: Text('Mental Health Resources'),
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                textStyle: TextStyle(fontSize: 12),
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: const TextStyle(fontSize: 12),
               ),
+              child: const Text('Mental Health Resources'),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: _desc,
-              child: Text('Describe Your Emergency'),
               style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                textStyle: TextStyle(fontSize: 12),
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                textStyle: const TextStyle(fontSize: 12),
               ),
+              child: const Text('Describe Your Emergency'),
             ),
-            SizedBox(
+            const SizedBox(
                 height:
                     30), // Spacing between buttons // Spacing between buttons
             RawMaterialButton(
               onPressed: _showEmergencyDialog,
-              child: SOSBtn(),
+              child: const SOSBtn(),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextButton(
               onPressed: null,
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                textStyle: const TextStyle(fontSize: 10),
+              ),
+              child: const Text(
                 'Warning: Pressing the SOS button will call an ambulance and send the nature of your emergency along with your current location',
                 textAlign: TextAlign.center,
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: const Color.fromARGB(255, 255, 255, 255),
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 10),
-                textStyle: TextStyle(fontSize: 10),
               ),
             ),
             // Add more buttons here if needed
@@ -349,6 +350,7 @@ void _desc() {
 class SOSBtn extends StatelessWidget {
   const SOSBtn({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
@@ -357,7 +359,7 @@ class SOSBtn extends StatelessWidget {
           child: Container(
               width: 165,
               height: 165,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,

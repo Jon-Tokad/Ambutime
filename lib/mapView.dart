@@ -11,7 +11,7 @@ class MapRoute extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromRGBO(243, 17, 17, 1)),
+            ColorScheme.fromSeed(seedColor: const Color.fromRGBO(243, 17, 17, 1)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Ambutime'),
@@ -68,10 +68,13 @@ class CupertinoButtonExample extends StatelessWidget {
 }
 
 class TitleBar extends StatelessWidget {
+  const TitleBar({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return RichText(
-      text: TextSpan(
-        children: const <TextSpan>[
+      text: const TextSpan(
+        children: <TextSpan>[
           TextSpan(
               text: 'Ambu',
               style: TextStyle(
@@ -112,8 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TitleBar(),
-            SizedBox(height: 20),
+            const TitleBar(),
+            const SizedBox(height: 20),
             const Text(
               'Help is on the way',
             ),
@@ -122,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {},
               child: const Text('Enabled'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'ETA: $_counter minutes',
             ),
