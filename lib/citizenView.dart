@@ -188,6 +188,9 @@ void _desc() {
   TextEditingController _emergencyDetailController = TextEditingController();
   TextEditingController _currentTimeController = TextEditingController();
   TextEditingController _categoryController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+
+  
 
   showDialog(
     context: context,
@@ -215,6 +218,13 @@ void _desc() {
                 decoration: InputDecoration(hintText: "Enter category number here"),
                 keyboardType: TextInputType.number,
               ),
+              SizedBox(height: 10),
+              Text('Enter emergency name:'),
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(hintText: "Enter name here"),
+                keyboardType: TextInputType.number,
+              ),
             ],
           ),
         ),
@@ -231,6 +241,7 @@ void _desc() {
               String detail = _emergencyDetailController.text;
               String currentTime = _currentTimeController.text;
               String category = _categoryController.text;
+              String name = _nameController.text;
               print(detail);
               print(currentTime);
               print(category);
@@ -240,7 +251,7 @@ void _desc() {
                 detail, 
                 currentTime, 
                 category, 
-                "null" // Replace with appropriate value if necessary
+                name // Replace with appropriate value if necessary
               );
 
               Navigator.of(context).pop(); // Close the input dialog
