@@ -10,10 +10,8 @@ class ambulancesDatabase {
     await db.open();
     inspect(db);
     var status = db.serverStatus();
-    print(status);
     var collection = db.collection(COLLECTION_NAME_AMB);
     //await collection.insertOne({"available": true, "location": "null"});
-    print(await collection.find().toList());
     database = db;
   }
 

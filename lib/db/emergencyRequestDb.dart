@@ -10,7 +10,6 @@ class emergencyRequestsDb {
     await db.open();
     inspect(db);
     var status = db.serverStatus();
-    print(status);
     var collection = db.collection(COLLECTION_NAME_EM);
     /*await collection.insertOne({
       "location": "null",
@@ -19,7 +18,6 @@ class emergencyRequestsDb {
       "classification": 4
     });
     */
-    print(await collection.find().toList());
     database = db;
   }
 
