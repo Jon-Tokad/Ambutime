@@ -8,6 +8,8 @@ import 'db/emergencyRequestDb.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+String name= '';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -92,17 +94,19 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               child: Text('OK'),
               onPressed: () async {
+                var tempName = "SOS" + DateTime.now().toString() + await getLatitude();
                 await emergencyRequestsDb.insertEmergencyDetail(
                     "SOS",
                     DateTime.now().toString(),
                     "SOS",
-                    "SOS" + DateTime.now().toString() + await getLatitude(),
+                    tempName,
                     await getLatitude(),
                     await getLongitude() // Replace with appropriate value if necessary
                     );
                 Navigator.of(context).pop();
+                // ignore: use_build_context_synchronously
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MapRoute()));
+                    MaterialPageRoute(builder: (context) => MapRoute(name: tempName)));
               },
             ),
           ],
@@ -261,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 String detail = _emergencyDetailController.text;
                 String currentTime = _currentTimeController.text;
                 String category = _categoryController.text;
-                String name = _nameController.text;
+                name = _nameController.text;
                 print(detail);
                 print(currentTime);
                 print(category);
@@ -277,6 +281,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
 
                 Navigator.of(context).pop(); // Close the input dialog
+
+                
 
                 // Display confirmation dialog
                 showDialog(
@@ -295,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const MapRoute()));
+                                    builder: (context) => MapRoute(name: name)));
                           },
                         ),
                       ],
@@ -375,6 +381,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _sendDataToSecondScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MapRoute(name: name,),
+        ));
   }
 }
 

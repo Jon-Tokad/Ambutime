@@ -1,12 +1,16 @@
+import 'package:ambutime/citizenView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:ambutime/db/pairsDb.dart';
 
 
 class MapRoute extends StatelessWidget {
-  const MapRoute({super.key});
+  MapRoute({super.key, required this.name});
+
+  final String name;
 
   // This widget is the root of your application.
   @override
@@ -65,7 +69,34 @@ class TitleBar extends StatelessWidget {
   }
 }
 
-class LocationPin extends StatelessWidget {
+class MyLocationPin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Icon(
+        Icons.location_on,
+        color: Colors.white,
+        size: 28,
+      ),
+    );
+  }
+}
+
+class AmbulanceLocationPin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -102,6 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController latitudeController = TextEditingController();
   TextEditingController longitudeController = TextEditingController();
 
+  var currentAmbulance = null;
+
   @override
   void initState() {
     super.initState();
@@ -109,6 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _getLocation() async {
+    currentAmbulance = await PairsDb.getAmbulance(name);
     try {
       LocationData locationData = await location.getLocation();
       setState(() {
@@ -120,9 +154,11 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Error getting location: $e");
     }
   }
-
+ 
   @override
   Widget build(BuildContext context) {
+    
+
     return Scaffold(
       body: Center(
         
@@ -157,15 +193,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   userAgentPackageName: 'com.example.app',
                   ),
                   MarkerLayer(
-  markers: [
-    Marker(
-      point: LatLng(currentLocation!.latitude ?? 0, currentLocation!.longitude ?? 0),
-      width: 30,
-      height: 30,
-      child: LocationPin(),
-    ),
-  ],
-),
+                    markers: [
+                      Marker(
+                        point: LatLng(currentLocation!.latitude ?? 0, currentLocation!.longitude ?? 0),
+                        width: 30,
+                        height: 30,
+                        child: MyLocationPin(),
+                      ),
+                      Marker(
+                        point: LatLng(currentAmbulance!['latitude'], currentLocation!.longitude ?? 0),
+                        width: 30,
+                        height: 30,
+                        child: AmbulanceLocationPin(),
+                      ),
+                    ],
+                  ),
                   RichAttributionWidget(
                   attributions: [
                     TextSourceAttribution(
