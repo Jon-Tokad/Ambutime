@@ -184,79 +184,99 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   }
 
-  void _desc() {
-    TextEditingController _textFieldController = TextEditingController();
+void _desc() {
+  TextEditingController _emergencyDetailController = TextEditingController();
+  TextEditingController _currentTimeController = TextEditingController();
+  TextEditingController _categoryController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Describe Your Emergency'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Please provide details:'),
-                TextFormField(
-                  controller: _textFieldController,
-                  decoration: InputDecoration(
-                      hintText: "Enter your emergency details here"),
-                ),
-              ],
-            ),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Describe Your Emergency'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('Please provide emergency details:'),
+              TextFormField(
+                controller: _emergencyDetailController,
+                decoration: InputDecoration(hintText: "Enter emergency details here"),
+              ),
+              SizedBox(height: 10),
+              Text('Enter current time:'),
+              TextFormField(
+                controller: _currentTimeController,
+                decoration: InputDecoration(hintText: "Enter current time here"),
+              ),
+              SizedBox(height: 10),
+              Text('Enter emergency category:'),
+              TextFormField(
+                controller: _categoryController,
+                decoration: InputDecoration(hintText: "Enter category number here"),
+                keyboardType: TextInputType.number,
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Send Information'),
-              onPressed: () async {
-              String detail = _textFieldController.text;
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Send Information'),
+            onPressed: () async {
+              String detail = _emergencyDetailController.text;
+              String currentTime = _currentTimeController.text;
+              String category = _categoryController.text;
               print(detail);
-              // Example data, replace with actual values
-            
-            
-            //FIX THIS WHY WONT THE WINDOW CLOSE AND WHY ISNT IT QUERYING TO DATABASE
+              print(currentTime);
+              print(category);
 
               await ambulancesDatabase.connect();
-              await emergencyRequestsDb.insertEmergencyDetail(detail, "null", "null", "null");
+              await emergencyRequestsDb.insertEmergencyDetail(
+                detail, 
+                currentTime, 
+                category, 
+                "null" // Replace with appropriate value if necessary
+              );
 
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Notice'),
-                      content: Text(
-                          'Your Emergency Information Was Sent. Help Is On The Way.'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('OK'),
-                          onPressed: () {
-                            // Popping the context twice to close both dialogs
-                            Navigator.of(context)
-                                .pop(); // Closes the Notice dialog
-                            Navigator.of(context, rootNavigator: true)
-                                .pop(); // Closes the Emergency Details dialog
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MapRoute()));
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+              Navigator.of(context).pop(); // Close the input dialog
+
+              // Display confirmation dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Notice'),
+                    content: Text(
+                        'Your Emergency Information Was Sent. Help Is On The Way.'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('OK'),
+                        onPressed: () {
+                          // Closes the Notice dialog
+                          Navigator.of(context, rootNavigator: true).pop();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MapRoute()));
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   @override
   @override
