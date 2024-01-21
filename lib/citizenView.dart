@@ -103,85 +103,90 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _phys() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Physical Health Resources'), 
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              InkWell(
-                child: Text('NIH Resources'),
-                onTap: () => launch('https://www.nih.gov/health-information/physical-wellness-toolkit-more-resources'),
-              ),
-              SizedBox(height: 10),  // Space between links
-              InkWell(
-                child: Text('CDC Health Tips'),
-                onTap: () => launch('https://www.cdc.gov/healthyweight/index.html'),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                child: Text('WHO Resources'),
-                onTap: () => launch('https://www.who.int/health-topics/physical-activity'),
-              ),
-              // Add more links here in the same pattern
-            ],
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Physical Health Resources'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                InkWell(
+                  child: Text('NIH Resources'),
+                  onTap: () => launch(
+                      'https://www.nih.gov/health-information/physical-wellness-toolkit-more-resources'),
+                ),
+                SizedBox(height: 10), // Space between links
+                InkWell(
+                  child: Text('CDC Health Tips'),
+                  onTap: () =>
+                      launch('https://www.cdc.gov/healthyweight/index.html'),
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  child: Text('WHO Resources'),
+                  onTap: () => launch(
+                      'https://www.who.int/health-topics/physical-activity'),
+                ),
+                // Add more links here in the same pattern
+              ],
+            ),
           ),
-        ), 
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _ment() {
     showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Mental Health Resources'), 
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              InkWell(
-                child: Text('SAMHSA'),
-                onTap: () => launch('https://www.samhsa.gov'),
-              ),
-              SizedBox(height: 10),  // Space between links
-              InkWell(
-                child: Text('National Institute of Mental Health'),
-                onTap: () => launch('https://www.nimh.nih.gov/health/find-help'),
-              ),
-              SizedBox(height: 10),
-              InkWell(
-                child: Text('Purdue Mental Health Resources'),
-                onTap: () => launch('https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
-              ),
-              // Add more links here in the same pattern
-            ],
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Mental Health Resources'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                InkWell(
+                  child: Text('SAMHSA'),
+                  onTap: () => launch('https://www.samhsa.gov'),
+                ),
+                SizedBox(height: 10), // Space between links
+                InkWell(
+                  child: Text('National Institute of Mental Health'),
+                  onTap: () =>
+                      launch('https://www.nimh.nih.gov/health/find-help'),
+                ),
+                SizedBox(height: 10),
+                InkWell(
+                  child: Text('Purdue Mental Health Resources'),
+                  onTap: () => launch(
+                      'https://www.purdue.edu/lgbtq/resources/health/mental-health.php'),
+                ),
+                // Add more links here in the same pattern
+              ],
+            ),
           ),
-        ), 
-        actions: <Widget>[
-          TextButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _desc() {
@@ -214,15 +219,15 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               child: Text('Send Information'),
               onPressed: () async {
-              String detail = _textFieldController.text;
-              print(detail);
-              // Example data, replace with actual values
-            
-            
-            //FIX THIS WHY WONT THE WINDOW CLOSE AND WHY ISNT IT QUERYING TO DATABASE
+                String detail = _textFieldController.text;
+                print(detail);
+                // Example data, replace with actual values
 
-              await ambulancesDatabase.connect();
-              await emergencyRequestsDb.insertEmergencyDetail(detail, "null", "null", "null");
+                //FIX THIS WHY WONT THE WINDOW CLOSE AND WHY ISNT IT QUERYING TO DATABASE
+
+                await ambulancesDatabase.connect();
+                await emergencyRequestsDb.insertEmergencyDetail(
+                    detail, "null", "null", "null");
 
                 showDialog(
                   context: context,
