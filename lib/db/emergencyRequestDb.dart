@@ -31,10 +31,10 @@ class emergencyRequestsDb {
     await db.open();
     var collection = db.collection(COLLECTION_NAME_EM);
     await collection.insertOne({
-      "location": "null",
-      "time": "12:00",
+      "location": location,
+      "time": time,
       "detail": detail,
-      "classification": 3
+      "classification": classification
     });
   }
 
